@@ -1,0 +1,25 @@
+
+.form-screen {
+    border: 2px solid #ab1fad;
+    border-radius: 4px;
+    background-color: #ab1fad;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.title-register {
+    text-align: center;
+    margin: auto;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.icon-return {
+    color: #ffffff;
+}
+
+.align-buttom {
+    text-align: left;
+    margin-top: 10px;
+}

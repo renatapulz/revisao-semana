@@ -1,0 +1,53 @@
+
+.login-screen {
+    border: 2px solid #ab1fad;
+    border-radius: 4px;
+    background-color: #ab1fad;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+form {
+    max-width: 630px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    padding: 10px;
+    color: #FFFFFF;
+}
+
+.input-forms {
+    width: calc(100% - 10px);
+    background-color: #ECECF1;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    color: #000000;
+    font-weight: bolder;
+}
+
+.title-register {
+    text-align: center;
+    margin: 20px 0 10px 0;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.link-signup {
+    padding-right: 5px;
+    text-align: right;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.space {
+    margin-top: 10px;
+}
