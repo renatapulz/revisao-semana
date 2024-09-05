@@ -5,85 +5,79 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [logado, setLogado] = useState(false);
-  const [userLength, setUserLength] = useState();
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("token");
     if (userId) {
       setUser(userId);
       setLogado(true);
     }
   }, []);
 
-  const getUsersLength = () => {
-    fetch("http://localhost:3000/users")
-      .then(response => response.json())
-      .then(dados => setUserLength(dados.length))
-      .catch(erro => console.log(erro));
-  }
-
-  const login = async (email, password) => {
+    const login = async (email, password) => {
     try {
-      const response = await fetch("http://localhost:3000/users");
-      const dados = await response.json();
-      
-      const usuario = dados.find(user => user.email === email);
+        const response = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, senha: password })
+        });
 
-      if (usuario) {
-        if (usuario.password === password) {
-          localStorage.setItem("userId", usuario.id);
-          setLogado(true);
-          window.location.href = "/";
+        const dados = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("token", dados.token);
+            setLogado(true);
+            window.location.href = "/";
         } else {
-          alert("Senha incorreta!");
+            let message;
+            switch (response.status) {
+                case 400:
+                    message = dados.mensagem || "Erro na solicitação";
+                    break;
+                case 401:
+                    message = dados.mensagem || "Email ou senha incorretos";
+                    break;
+                default:
+                    message = dados.mensagem || "Erro desconhecido";
+            }
+            alert(`Falha no login: ${message}`);
         }
+    } catch (error) {
+        console.error("Erro ao efetuar login:", error);
+        alert("Erro ao efetuar o login. Por favor, tente novamente.");
+    }
+};  
+  
+  const cadastro = async (name, email, password) => {
+    try {
+      const response = await fetch("http://localhost:3000/user/register", {
+        method: "POST",
+        body: JSON.stringify({ nome: name, email, senha: password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      const dados = await response.json();
+  
+      if (response.ok) {
+        alert("Usuário cadastrado com sucesso! Por favor, efetue o login.");
+        window.location.href = "/login";
       } else {
-        alert("Usuário não cadastrado.");
+        throw new Error(dados.mensagem || "Erro ao cadastrar o usuário!");
       }
     } catch (error) {
-      console.error("Erro ao buscar usuários:", error);
+      console.error("Erro ao cadastrar o usuário:", error.message);
+      alert(`Erro ao cadastrar o usuário: ${error.message}`);
     }
-  };
-
-  const cadastro = (name, email, password) => {
-    fetch("http://localhost:3000/users")
-      .then(response => response.json())
-      .then(dados => {
-        const user = dados.find(user => user.email === email);
-        if (user) {
-          alert("Email já cadastrado.");
-          return;
-        }
-        return fetch("http://localhost:3000/users", {
-          method: "POST",
-          body: JSON.stringify({ name, email, password }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        .then(response => {
-          if (response.ok) {
-            alert("Usuário cadastrado com sucesso! Por favor, efetue o login.");
-            window.location.href = "/login";
-          } else {
-            throw new Error("Erro ao cadastrar usuário!");
-          }
-        })
-        .catch(error => {
-          console.error("Erro ao cadastrar usuário:", error.message);
-          alert("Erro ao cadastrar usuário!");
-        });
-      })
-      .catch(error => {
-        console.error("Erro ao tentar cadastrar:", error.message);
-        alert("Erro ao tentar cadastrar. Tente novamente.");
-      });
-  };
+  };    
 
   const logout = () => {
     setLogado(false);
     setUser(null);
-    localStorage.removeItem("userId");
+    localStorage.removeItem("token");
   };
 
   const isLoggedIn = () => {
@@ -91,7 +85,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, logado, login, logout, isLoggedIn, cadastro, getUsersLength, userLength }}>
+    <AuthContext.Provider value={{ user, logado, login, logout, isLoggedIn, cadastro }}>
       {children}
     </AuthContext.Provider>
   );
