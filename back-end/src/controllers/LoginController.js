@@ -25,7 +25,7 @@ class LoginController {
             });
             if (!usuario) {
                 return response
-                    .status(404)
+                    .status(400)
                     .json({ mensagem: 'Conta não encontrada' });
             }
             const validatePassword = compareSync(dados.senha, usuario.senha);
