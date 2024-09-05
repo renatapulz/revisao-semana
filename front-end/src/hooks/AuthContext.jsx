@@ -33,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
         if (usuario.password === password) {
           localStorage.setItem("userId", usuario.id);
           setLogado(true);
-          window.location.href = "/gerenciamento";
+          window.location.href = "/";
         } else {
           alert("Senha incorreta!");
         }
