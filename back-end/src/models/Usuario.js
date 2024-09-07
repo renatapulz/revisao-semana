@@ -15,6 +15,11 @@ const Usuario = connection.define("usuarios", {
     senha: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    permissao: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'user',
     }
 }, {
     hooks: {
