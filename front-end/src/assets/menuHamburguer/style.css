@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.icon {
+    position: absolute;
+    z-index: 4;
+    left: 20px;
+    width: fit-content;
+    height: 44px;
+    cursor: pointer;
+    top: 10px;
+}
+
+.hamburguer {
+    top: 50%;
+    left: 10%;
+    width: 30px;
+    height: 6px;
+    background: #ffffff;
+    position: absolute;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+
+.hamburguer::before {
+    top: -12px;
+    content: '';
+    position: absolute;
+    width: 37px;
+    height: 6px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+
+.hamburguer::after {
+    top: 12px;
+    content: '';
+    position: absolute;
+    width: 37px;
+    height: 6px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    left: 1%;
+    padding: 45px 0 0;
+    flex-wrap: nowrap;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.listItems {
+    list-style-type: none;
+}
+
+.list .listItems {
+    padding: 0;
+    list-style: none;
+}
+
+.list .listItems li {
+    margin: 10px 15px;
+}
+
+.link-menu:hover {
+    font-weight: 800;
+}
+
+.icon.iconActive .hamburguer {
+    background: transparent;
+    box-shadow: 0 2px 5px transparent;
+}
+
+.icon.iconActive .hamburguer::after{
+    top: 0;
+    background: #ffffff;
+    transform: rotate(225deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.icon.iconActive .hamburguer::before{
+    top: 0;
+    background: #ffffff;
+    transform: rotate(135deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.menu.menuOpen {
+    max-width: 210px;
+    padding: 0 0 10px 0;
+    background: #ab1fad;
+    margin: 20px 0 0 -20px;
+}
+
+.menu.menuClose {
+    display: none;
+    width: 0px;
+}
+
+.link-menu {
+    color: #FFFFFF;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
