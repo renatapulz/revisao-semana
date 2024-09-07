@@ -105,14 +105,14 @@ class UsuariosController {
 
             if (req.permissao === 'admin') {
                 usuario.nome = nome || usuario.nome;
-                usuario.email = email || usuario.email;
+                usuario.email = email ? email.toLowerCase() : usuario.email;
                 if (senha) {
                     usuario.senha = await bcrypt.hash(senha, 10);
                 }
                 usuario.permissao = permissao || usuario.permissao;
             } else if (parseInt(id) === req.usuarioId) {
                 usuario.nome = nome || usuario.nome;
-                usuario.email = email || usuario.email;
+                usuario.email = email ? email.toLowerCase() : usuario.email;
                 if (senha) {
                     usuario.senha = await bcrypt.hash(senha, 10);
                 }
