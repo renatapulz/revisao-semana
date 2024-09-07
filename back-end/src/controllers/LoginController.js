@@ -38,7 +38,8 @@ class LoginController {
 
             // Gera o token JWT
             const token = sign({
-                id: usuario.id
+                id: usuario.id,
+                permissao: usuario.permissao
             },
                 process.env.DB_JWT_SECRET,
                 {

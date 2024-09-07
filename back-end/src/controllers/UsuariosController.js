@@ -57,16 +57,77 @@ class UsuariosController {
                 return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
             }
 
-            // Verifica se o usuário autenticado é o dono da conta que está tentando deletar
-            if (parseInt(id) !== req.usuarioId) {
+            // Verifica se o usuário autenticado é o dono da conta ou um administrador
+            if (parseInt(id) !== req.usuarioId && req.permissao !== 'admin') {
                 return res.status(403).json({ mensagem: 'Ação não permitida. Você só pode deletar sua própria conta.' });
             }
+            
             await usuario.destroy();
             res.status(204).send();
         } catch (error) {
             res.status(500).json({ mensagem: 'Erro ao deletar usuário.', error });
         }
     }
+
+    async getUsersAll (req, res) {
+        try {
+            const usuarios = await Usuario.findAll();
+            res.status(200).json(usuarios);
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao buscar a lista de usuários' });
+        }
+    };
+
+    async getUserById(req, res) {
+        try {
+            const { id } = req.params;
+            const usuario = await Usuario.findByPk(id);
+            
+            if (!usuario) {
+                return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+            }
+
+            res.status(200).json(usuario);
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao buscar o usuário' });
+        }
+    }
+    
+    async editUser(req, res) {
+        try {
+            const { id } = req.params;
+            const { nome, email, senha, permissao } = req.body;
+
+            const usuario = await Usuario.findByPk(id);
+            if (!usuario) {
+                return res.status(404).json({ error: 'Usuário não encontrado' });
+            }
+
+            if (req.permissao === 'admin') {
+                usuario.nome = nome || usuario.nome;
+                usuario.email = email || usuario.email;
+                if (senha) {
+                    usuario.senha = await bcrypt.hash(senha, 10);
+                }
+                usuario.permissao = permissao || usuario.permissao;
+            } else if (parseInt(id) === req.usuarioId) {
+                usuario.nome = nome || usuario.nome;
+                usuario.email = email || usuario.email;
+                if (senha) {
+                    usuario.senha = await bcrypt.hash(senha, 10);
+                }
+            } else {
+                return res.status(403).json({ error: 'Ação não permitida.' });
+            }
+
+            await usuario.save();
+
+            res.status(200).json(usuario);
+        } catch (error) {
+            res.status(500).json({ error: 'Erro ao atualizar usuário' });
+        }
+    }
+
 }
 
 module.exports = new UsuariosController()

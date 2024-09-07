@@ -14,7 +14,8 @@ function validaToken(request, response, next) {
     
         const resultado = verify(jwt[1], process.env.DB_JWT_SECRET)
         
-        request.usuarioId = resultado.id
+        request.usuarioId = resultado.id;
+        request.permissao = resultado.permissao;
 
         next()
     } catch (error) {
