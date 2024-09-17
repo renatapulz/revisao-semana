@@ -2,10 +2,10 @@
     border: 2px solid #ececf1;
     border-radius: 4px;
     background-color: #ececf1;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 10px;
-    margin-bottom: 20px;
     max-width: 630px;
+    width: calc(100% - 10px);
 }
 
 .title-card {
@@ -31,4 +31,14 @@
 .icon-card:hover {
     color: black;
     transform: scale(1.2);
+}
+
+.select-permission {
+    padding: 8px;
+    border: 2px solid #ececf1;
+    border-radius: 4px;
+    background-color: #ececf1;
+    width: calc(100% - 10px);
+    max-width: 575px;
+    box-sizing: border-box;
 }

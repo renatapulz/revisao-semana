@@ -1,10 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { useEditUser } from '../../hooks/UseEditUser';
 import useFetchUser from '../../hooks/UseFetchUser';
 import CustomButton from '../../assets/buttom/buttom';
 import './style.css';
 import { useParams } from 'react-router-dom';
+import { AuthContext } from '../../hooks/AuthContext';
+import { Link } from 'react-router-dom';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 
 function EditarUsuarioPage() {
   const { id } = useParams();
@@ -12,13 +15,15 @@ function EditarUsuarioPage() {
   const { userData, loading, error: fetchError } = useFetchUser(id);
 
   const { register, handleSubmit, formState: { errors, isSubmitted }, setValue } = useForm();
-  const { editUser, isLoading: isEditing, error: editError } = useEditUser();
+  const { editUser } = useEditUser();
+  const { isAdmin } = useContext(AuthContext);
 
   useEffect(() => {
     if (userData) {
       setValue('nome', userData.nome);
       setValue('email', userData.email);
       setValue('senha', '');
+      setValue('permissao', userData.permissao || 'user');
     }
   }, [userData, setValue]);
 
@@ -38,6 +43,11 @@ function EditarUsuarioPage() {
     <div>
       <div className="container">
         <form className="form-screen" onSubmit={handleSubmit(handleEditSubmit)}>
+          {isAdmin && (
+            <div>
+              <Link to="/users"><KeyboardBackspaceIcon className="icon-return" sx={{ fontSize: 50 }}/></Link>
+            </div>
+          )}
           <h3 className="title-register">Editar Usuário</h3>
           <div>
             <label>Nome</label>
@@ -68,6 +78,15 @@ function EditarUsuarioPage() {
               {...register("senha", { required: false, maxLength: 8 })}
             />
           </div>
+          {isAdmin && (
+            <div>
+              <label>Permissão</label>
+              <select className='select-permission' {...register("permissao")}>
+                <option value="user">Usuário padrão</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </div>
+          )}
           <div className="align-buttom">
             <CustomButton type="submit" buttonText="Salvar" />
           </div>
