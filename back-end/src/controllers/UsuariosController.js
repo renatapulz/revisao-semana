@@ -1,6 +1,7 @@
 const Usuario = require('../models/Usuario')
 const yup = require('yup')
 const { Op } = require('sequelize');
+const bcrypt = require('bcryptjs');
 
 class UsuariosController {
     async register(req, res) {
