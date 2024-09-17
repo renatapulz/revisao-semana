@@ -11,8 +11,8 @@ function CadastroPage() {
     const { cadastro } = useContext(AuthContext);
 
     const handleSignupSubmit = (data) => {
-        const { name, email, password } = data;
-        cadastro(name, email, password);
+        const { nome, email, senha } = data;
+        cadastro(nome, email, senha);
     };
 
     return (
@@ -26,10 +26,10 @@ function CadastroPage() {
                         <input type="text"
                             className="input-forms"
                             placeholder="Digite seu nome completo"
-                            {...register("name", { required: true, minLength: 5, maxLength: 50 })}></input>
-                        {errors.name && errors.name.type === "required" && isSubmitted && (<p className="error-message">Campo obrigatório.</p>)}
-                        {errors.name && errors.name.type === "maxLength" && isSubmitted && (<p className="error-message">O nome não pode ter mais de 50 caracteres.</p>)}
-                        {errors.name && errors.name.type === "minLength" && isSubmitted && (<p className="error-message">Por favor, verifique seus dados.</p>)}
+                            {...register("nome", { required: true, minLength: 5, maxLength: 50 })}></input>
+                        {errors.nome && errors.nome.type === "required" && isSubmitted && (<p className="error-message">Campo obrigatório.</p>)}
+                        {errors.nome && errors.nome.type === "maxLength" && isSubmitted && (<p className="error-message">O nome não pode ter mais de 50 caracteres.</p>)}
+                        {errors.nome && errors.nome.type === "minLength" && isSubmitted && (<p className="error-message">Por favor, verifique seus dados.</p>)}
                     </div>
                     <div>
                         <label>Email</label>
@@ -46,9 +46,9 @@ function CadastroPage() {
                         <input type="password"
                             className="input-forms"
                             placeholder="Digite uma senha"
-                            {...register("password", { required: true, maxLength: 8 })}></input>
-                        {errors.password && errors.password.type === "required" && isSubmitted && (<p className="error-message">Campo obrigatório.</p>)}
-                        {errors.password && errors.password.type === "maxLength" && isSubmitted && (<p className="error-message">A senha não pode ter mais de 8 caracteres.</p>)}
+                            {...register("senha", { required: true, maxLength: 8 })}></input>
+                        {errors.senha && errors.senha.type === "required" && isSubmitted && (<p className="error-message">Campo obrigatório.</p>)}
+                        {errors.senha && errors.senha.type === "maxLength" && isSubmitted && (<p className="error-message">A senha não pode ter mais de 8 caracteres.</p>)}
                     </div>
                     <div className="align-buttom">
                         <CustomButton type="submit" buttonText="Salvar" />

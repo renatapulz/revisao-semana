@@ -10,8 +10,8 @@ function LoginPage() {
     const { login } = useContext(AuthContext);
 
     const handleLoginSubmit = async (data) => {
-        const { email, password } = data;
-        await login(email, password);
+        const { email, senha } = data;
+        await login(email, senha);
     };
 
     return (
@@ -41,12 +41,12 @@ function LoginPage() {
                             type="password"
                             className="input-forms"
                             placeholder="Digite sua senha"
-                            {...register("password", { 
+                            {...register("senha", { 
                                 required: "Campo obrigatório.",
                                 maxLength: { value: 8, message: "A senha não pode ter mais de 8 caracteres." }
                             })}
                         />
-                        {errors.password && isSubmitted && (<p className="error-message">{errors.password.message}</p>)}
+                        {errors.senha && isSubmitted && (<p className="error-message">{errors.senha.message}</p>)}
                     </div>
                     
                     <div className="space">
