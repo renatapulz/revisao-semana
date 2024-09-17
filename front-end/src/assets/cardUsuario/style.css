@@ -1,0 +1,34 @@
+.card_container {
+    border: 2px solid #ececf1;
+    border-radius: 4px;
+    background-color: #ececf1;
+    margin: 0 auto;
+    padding: 10px;
+    margin-bottom: 20px;
+    max-width: 630px;
+}
+
+.title-card {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.info-card {
+    padding: 5px 0px;
+}
+
+.icons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+}
+.icon-card {
+    cursor: pointer;
+    margin-right: 10px;
+    color: #36909A;
+}
+
+.icon-card:hover {
+    color: black;
+    transform: scale(1.2);
+}

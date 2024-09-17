@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from './AuthContext';
 
 const useFetchAllUsers = () => {
@@ -7,8 +7,8 @@ const useFetchAllUsers = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAllUsers = async () => {
+    const fetchAllUsers = useCallback(async () => {
+      setLoading(true);
       try {
         const response = await fetch('http://localhost:3000/users', {
           headers: {
@@ -28,12 +28,14 @@ const useFetchAllUsers = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchAllUsers();
   }, [user]);
 
-  return { usuarios, loading, error };
+  // Carrega os dados quando o hook é usado
+  useEffect(() => {
+    fetchAllUsers();
+  }, [fetchAllUsers]);
+
+  return { usuarios, loading, error, refetch: fetchAllUsers };
 };
 
 export default useFetchAllUsers;
