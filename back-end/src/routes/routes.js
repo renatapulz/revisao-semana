@@ -4,7 +4,7 @@ const LoginController = require('../controllers/LoginController')
 
 const routes = new Router()
 
-routes.use('/user', UsuariosRoutes)
+routes.use('/users', UsuariosRoutes)
 routes.post('/login', LoginController.login)
 
 module.exports = routes
