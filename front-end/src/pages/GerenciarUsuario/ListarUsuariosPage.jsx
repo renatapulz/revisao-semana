@@ -20,18 +20,14 @@ function ListarUsuariosPage() {
 
   return (
     <div className="container">
-      {Array.isArray(usuarios) && usuarios.length > 0 ? (
-        usuarios.map((usuario) => (
-          <CardUsuario
-            key={usuario.id}
-            exibirIcones={true}
-            usuario={usuario}
-            onDeleteSuccess={handleDeleteSuccess}
-          />
-        ))
-      ) : (
-        <h2 className="message">Nenhum usuário cadastrado.</h2>
-      )}
+      {usuarios.map((usuario) => (
+        <CardUsuario
+          key={usuario.id}
+          exibirIcones={true}
+          usuario={usuario}
+          onDeleteSuccess={handleDeleteSuccess}
+        />
+      ))}
     </div>
   );
 }

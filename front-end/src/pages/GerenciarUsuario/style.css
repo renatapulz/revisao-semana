@@ -1,4 +1,12 @@
-.message {
-    text-align: center;
-    margin-top: 20px;
+.icon-card-delete {
+    color: white;
+    cursor: pointer;
 }
+
+.title-icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }

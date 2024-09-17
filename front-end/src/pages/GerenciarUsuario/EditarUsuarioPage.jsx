@@ -4,19 +4,20 @@ import { useEditUser } from '../../hooks/UseEditUser';
 import useFetchUser from '../../hooks/UseFetchUser';
 import CustomButton from '../../assets/buttom/buttom';
 import './style.css';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { AuthContext } from '../../hooks/AuthContext';
-import { Link } from 'react-router-dom';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import DeleteIcon from '@mui/icons-material/Delete';
+import useDeleteUser from '../../hooks/UseDeleteUser';
 
 function EditarUsuarioPage() {
   const { id } = useParams();
-
   const { userData, loading, error: fetchError } = useFetchUser(id);
 
   const { register, handleSubmit, formState: { errors, isSubmitted }, setValue } = useForm();
   const { editUser } = useEditUser();
-  const { isAdmin } = useContext(AuthContext);
+  const { isAdmin, userId: loggedInUserId, logout } = useContext(AuthContext);
+  const { deleteUser } = useDeleteUser();
 
   useEffect(() => {
     if (userData) {
@@ -36,8 +37,20 @@ function EditarUsuarioPage() {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm('Tem certeza que deseja excluir sua conta?')) {
+      try {
+        await deleteUser(id);
+        logout();
+      } catch (error) {
+        alert('Erro ao excluir a conta.');
+      }
+    }
+  };
+
   if (loading) return <p>Carregando dados do usuário...</p>;
   if (fetchError) return <p>{fetchError}</p>;
+  const isCurrentUser = loggedInUserId === parseInt(id);
 
   return (
     <div>
@@ -48,7 +61,12 @@ function EditarUsuarioPage() {
               <Link to="/users"><KeyboardBackspaceIcon className="icon-return" sx={{ fontSize: 50 }}/></Link>
             </div>
           )}
-          <h3 className="title-register">Editar Usuário</h3>
+          <div className='title-icon'>
+            <h3 className="title-register">Editar Usuário</h3>
+            {isCurrentUser && (
+              <DeleteIcon sx={{ fontSize: 30 }} className="icon-card-delete" onClick={handleDelete} />
+            )}
+          </div>
           <div>
             <label>Nome</label>
             <input
